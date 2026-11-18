@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IELTS Final Exam</title>
+<style>:root{--primary:#1e3a8a;--primary-2:#2f55c8;--primary-soft:#e6ecfb;--accent:#f59e0b;--accent-dark:#b45309;--accent-soft:#fde7b8;--accent-ink:#2a1a00;--bg:#f4f6fb;--ink:#1b2236;--muted:#5d6680}
+:root{--fs:18px;--radius:14px}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:"Segoe UI",Tahoma,Arial,sans-serif;font-size:var(--fs);line-height:1.6;color:var(--ink);background:var(--bg)}
+button{font:inherit;cursor:pointer}
+input,select{font:inherit}
+.ar{font-family:Tahoma,"Segoe UI",Arial,sans-serif;direction:rtl;unicode-bidi:isolate}
+.hidden{display:none!important}
+
+/* ---------- start screen ---------- */
+#start{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px 16px;background:radial-gradient(circle at 15% 15%,var(--accent-soft),transparent 45%),radial-gradient(circle at 85% 85%,var(--primary-soft),transparent 50%),var(--bg)}
+.start-card{background:#fff;max-width:860px;width:100%;border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,.12);overflow:hidden}
+.start-head{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;padding:34px 36px 30px}
+.start-head .tag{display:inline-block;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:.8em;padding:4px 12px;border-radius:30px;letter-spacing:.05em;text-transform:uppercase}
+.start-head h1{margin:12px 0 6px;font-size:2.1em;line-height:1.15}
+.start-head p{margin:0;opacity:.9}
+.start-body{padding:28px 36px 34px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:22px}
+.fact{background:var(--primary-soft);border-radius:var(--radius);padding:14px 16px}
+.fact b{display:block;font-size:1.5em;color:var(--primary)}
+.fact span{font-size:.85em;color:var(--muted)}
+.rules{background:#fffbea;border:2px solid var(--accent);border-radius:var(--radius);padding:14px 20px;margin-bottom:22px}
+.rules h3{margin:0 0 6px;font-size:1em}
+.rules ul{margin:0;padding-left:22px}
+.rules li{margin:3px 0}
+.field-row{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:18px}
+.field-row label{font-weight:600;font-size:.9em;display:block;margin-bottom:4px}
+.field-row input{width:100%;padding:12px 14px;border:2px solid #d5d9e2;border-radius:10px}
+.field-row input:focus{outline:none;border-color:var(--primary)}
+.start-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn{border:none;border-radius:12px;padding:12px 22px;font-weight:700;transition:.15s}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{filter:brightness(1.12)}
+.btn-accent{background:var(--accent);color:var(--accent-ink)}
+.btn-ghost{background:#fff;color:var(--primary);border:2px solid var(--primary)}
+.btn-big{font-size:1.15em;padding:15px 30px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.credit{text-align:center;color:var(--muted);font-size:.8em;margin-top:22px}
+
+/* ---------- exam header ---------- */
+#exam{height:100vh;display:flex;flex-direction:column}
+.topbar{background:var(--primary);color:#fff;display:flex;align-items:center;gap:14px;padding:8px 16px;flex-wrap:wrap}
+.topbar .title{font-weight:700;font-size:1.05em}
+.topbar .who{opacity:.85;font-size:.85em}
+.topbar .spacer{flex:1}
+.timer{background:rgba(255,255,255,.14);border-radius:10px;padding:4px 14px;font-variant-numeric:tabular-nums;font-weight:800;font-size:1.35em;min-width:120px;text-align:center}
+.timer.warn{background:var(--accent);color:var(--accent-ink);animation:pulse 1s infinite}
+.timer small{display:block;font-size:.5em;font-weight:600;opacity:.85;letter-spacing:.06em;text-transform:uppercase}
+@keyframes pulse{50%{transform:scale(1.05)}}
+.tb-btn{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:10px;padding:7px 14px;font-weight:600;font-size:.85em}
+.tb-btn:hover{background:rgba(255,255,255,.28)}
+.tb-btn.submit{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.gear{background:none;border:none;color:#fff;opacity:.35;font-size:1.1em;padding:4px}
+.gear:hover{opacity:.9}
+.fontctl{display:flex;gap:4px}
+.fontctl button{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:8px;width:34px;height:32px;font-weight:700}
+
+.partbar{display:flex;gap:6px;padding:8px 16px;background:#fff;border-bottom:1px solid #e3e6ee;align-items:center;flex-wrap:wrap}
+.parttab{background:var(--bg);border:2px solid transparent;border-radius:30px;padding:6px 16px;font-weight:600;color:var(--muted);font-size:.9em}
+.parttab.active{background:var(--primary);color:#fff}
+.parttab .cnt{font-size:.8em;opacity:.8;margin-left:6px}
+.hl-toggle{margin-left:auto;background:#fff;border:2px solid #f5d000;border-radius:30px;padding:5px 14px;font-weight:600;font-size:.85em}
+.hl-toggle.on{background:#fff27a}
+
+.main{flex:1;display:flex;min-height:0}
+.pane{overflow-y:auto;padding:22px 28px 40px}
+.pane.passage{flex:1 1 52%;background:#fff;border-right:4px solid var(--primary-soft)}
+.pane.qs{flex:1 1 48%;background:var(--bg)}
+.pane.qs.full{flex-basis:100%;max-width:1000px;margin:0 auto}
+.passage h2{margin:0 0 4px;color:var(--primary);font-size:1.45em}
+.passage .sub{color:var(--muted);font-style:italic;margin:0 0 16px}
+.passage .readhead{font-size:.8em;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-dark);font-weight:700}
+.passage p{margin:0 0 14px}
+.passage p .pl{font-weight:800;color:var(--primary);margin-right:8px}
+.passage.hlmode{cursor:text}
+mark{background:#fff27a;padding:0 1px;border-radius:2px;cursor:pointer}
+
+/* ---------- questions ---------- */
+.group{background:#fff;border-radius:var(--radius);padding:18px 20px;margin-bottom:18px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.group h3{margin:0 0 4px;color:var(--primary);font-size:1.05em}
+.instr{margin:0 0 12px;color:#333}
+.instr b{color:var(--accent-dark)}
+.optbox{background:var(--primary-soft);border-radius:10px;padding:10px 16px;margin:0 0 14px}
+.optbox h4{margin:0 0 4px;font-size:.95em}
+.optbox div{margin:2px 0}
+.optbox .L{font-weight:800;color:var(--primary);display:inline-block;min-width:34px}
+.example{background:#f3f4f6;border-left:4px solid var(--muted);padding:6px 12px;margin-bottom:12px;font-size:.92em}
+.q{display:flex;gap:12px;padding:10px 0;border-top:1px dashed #e3e6ee;align-items:flex-start}
+.q:first-of-type{border-top:none}
+.qn{flex:0 0 auto;background:var(--primary);color:#fff;font-weight:800;border-radius:8px;min-width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:.9em;padding:0 6px}
+.qbody{flex:1}
+.qbody p{margin:0 0 6px}
+.opts label{display:flex;gap:10px;align-items:flex-start;padding:6px 10px;border-radius:8px;cursor:pointer;border:2px solid transparent}
+.opts label:hover{background:var(--primary-soft)}
+.opts input{margin-top:6px;transform:scale(1.25);accent-color:var(--primary)}
+.opts label.sel{border-color:var(--primary);background:var(--primary-soft)}
+.opts .ol{font-weight:800;color:var(--primary);min-width:20px}
+.tfng{display:flex;gap:8px;flex-wrap:wrap}
+.tfng label{border:2px solid #d5d9e2;border-radius:30px;padding:4px 14px;cursor:pointer;font-weight:600;font-size:.85em;display:flex;gap:6px;align-items:center}
+.tfng input{accent-color:var(--primary)}
+.tfng label.sel{background:var(--primary);color:#fff;border-color:var(--primary)}
+select.ans{padding:6px 10px;border:2px solid #cfd4de;border-radius:8px;min-width:110px;background:#fff}
+input.gap{border:none;border-bottom:2px solid var(--primary);background:var(--primary-soft);padding:2px 8px;width:170px;border-radius:6px 6px 0 0}
+input.gap:focus{outline:none;background:#fff8d6}
+.gapwrap{white-space:nowrap}
+.gapwrap b{display:inline-block;background:var(--primary);color:#fff;border-radius:6px;font-size:.75em;padding:0 6px;margin-right:4px;vertical-align:middle}
+.notes{line-height:2.3}
+.notes h4{margin:12px 0 0;color:var(--primary)}
+.notes ul{margin:0;padding-left:22px}
+.flag{background:none;border:none;font-size:1em;opacity:.3;padding:0 4px;margin-left:4px}
+.flag.on{opacity:1;color:#e11d48}
+.qflash{animation:flash 1.2s}
+@keyframes flash{0%,40%{background:#fff27a}}
+
+/* ---------- navigator ---------- */
+.navbar{background:#fff;border-top:1px solid #e3e6ee;padding:8px 12px;display:flex;gap:4px;flex-wrap:wrap;align-items:center;justify-content:center}
+.navbar .nl{font-weight:700;font-size:.75em;color:var(--muted);margin:0 6px}
+.nb{width:32px;height:30px;border:2px solid #cfd4de;background:#fff;border-radius:7px;font-size:.75em;font-weight:700;color:#555;position:relative}
+.nb.done{background:var(--primary);border-color:var(--primary);color:#fff}
+.nb.flagged::after{content:"";position:absolute;top:-4px;right:-4px;width:9px;height:9px;border-radius:50%;background:#e11d48}
+.nb.cur{outline:3px solid var(--accent)}
+
+/* audio bar (listening) */
+.audiobar{background:#fff;border-bottom:1px solid #e3e6ee;padding:10px 20px;display:flex;align-items:center;gap:14px}
+.audiobar .icon{font-size:1.4em}
+.prog{flex:1;height:10px;background:#e8eaf0;border-radius:10px;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.audiobar .t{font-variant-numeric:tabular-nums;font-weight:700;font-size:.9em;min-width:120px;text-align:right}
+.audiobar .st{font-weight:700;color:var(--primary);font-size:.9em}
+
+/* ---------- modal / toast ---------- */
+.modal{position:fixed;inset:0;background:rgba(10,15,30,.55);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal .box{background:#fff;border-radius:20px;padding:26px 28px;max-width:520px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal h3{margin:0 0 8px;color:var(--primary)}
+.modal .row{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
+.modal input{width:100%;padding:10px 12px;border:2px solid #cfd4de;border-radius:10px;font-size:1.1em;letter-spacing:.3em;text-align:center}
+.tpanel{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:12px 22px;border-radius:12px;z-index:60;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.25);max-width:90vw;text-align:center}
+.toast.warn{background:#b91c1c}
+.pausecover{position:fixed;inset:0;background:var(--primary);color:#fff;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
+.pausecover h2{font-size:2em;margin:0 0 10px}
+
+/* ---------- results ---------- */
+#results{max-width:1050px;margin:0 auto;padding:26px 18px 60px}
+.res-hero{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;border-radius:24px;padding:28px 32px;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:20px;align-items:center}
+.res-hero h1{margin:0 0 4px;font-size:1.6em}
+.res-hero .big{font-size:3.2em;font-weight:900;line-height:1}
+.res-hero .lbl{font-size:.8em;opacity:.85;text-transform:uppercase;letter-spacing:.06em}
+.res-hero .band{background:var(--accent);color:var(--accent-ink);border-radius:18px;padding:12px 16px;text-align:center}
+.res-actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 26px}
+.card{background:#fff;border-radius:18px;padding:20px 24px;margin-bottom:20px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.card h2{margin:0 0 12px;color:var(--primary);font-size:1.25em}
+.brow{display:grid;grid-template-columns:1.6fr 70px 2fr;gap:12px;align-items:center;padding:6px 0;border-bottom:1px solid #f0f1f5}
+.bbar{height:12px;background:#eef0f4;border-radius:10px;overflow:hidden}
+.bbar i{display:block;height:100%;background:var(--primary)}
+.bbar i.low{background:#e11d48}.bbar i.mid{background:var(--accent)}
+table.rev{width:100%;border-collapse:collapse;font-size:.92em}
+table.rev th{background:var(--primary-soft);text-align:left;padding:8px}
+table.rev td{padding:8px;border-bottom:1px solid #eef0f4;vertical-align:top}
+.ok{color:#15803d;font-weight:800}.no{color:#b91c1c;font-weight:800}
+.ev{color:var(--muted);font-size:.88em;font-style:italic}
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.gloss div{background:var(--primary-soft);border-radius:10px;padding:8px 12px}
+.gloss b{color:var(--primary)}
+.meta{color:var(--muted);font-size:.85em}
+
+/* certificate */
+#cert{position:fixed;inset:0;background:rgba(10,15,30,.6);z-index:70;display:flex;align-items:center;justify-content:center;padding:16px}
+.certbox{background:#fff;width:900px;max-width:100%;padding:16px;border-radius:12px}
+.certin{border:10px double var(--primary);padding:40px 46px;text-align:center;background:radial-gradient(circle at 50% 0,var(--accent-soft),#fff 60%)}
+.certin .small{letter-spacing:.3em;text-transform:uppercase;color:var(--muted);font-size:.8em}
+.certin h1{font-family:Georgia,serif;color:var(--primary);font-size:2.4em;margin:8px 0}
+.certin .name{font-family:Georgia,serif;font-size:2.1em;border-bottom:2px solid var(--accent);display:inline-block;padding:0 30px 4px;margin:10px 0}
+.certin .bandbig{display:inline-block;background:var(--primary);color:#fff;border-radius:50%;width:110px;height:110px;line-height:110px;font-size:2.4em;font-weight:900;margin:14px 0}
+.certfoot{display:flex;justify-content:space-between;margin-top:26px;font-size:.85em;color:var(--muted)}
+canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:80}
+
+@media (max-width:860px){
+ .main{flex-direction:column;overflow-y:auto}
+ .pane{overflow:visible}
+ .pane.passage{border-right:none;border-bottom:4px solid var(--primary-soft)}
+ .res-hero{grid-template-columns:1fr}
+ .field-row{grid-template-columns:1fr}
+}
+@media print{
+ body{background:#fff}
+ .no-print,.topbar,.navbar,.res-actions{display:none!important}
+ body.printing-cert > *:not(#cert){display:none!important}
+ body.printing-cert #cert{position:static;background:none;padding:0}
+ body.printing-cert .certbox{box-shadow:none;width:100%}
+ .card{box-shadow:none;border:1px solid #ddd;break-inside:avoid}
+}
+</style></head><body><div id="app"></div>
+<script>window.EXAM = {
+id:'lsc0316-final-reading', skill:'reading', pin:'0316',
+title:'IELTS Final Exam Practice · Academic Reading', short:'Final Exam · Reading', tag:'LSC 0316 · Exam conditions',
+subtitle:'Three passages · 40 questions · 60 minutes',
+duration:3600,
+facts:[['60 min','One fixed timer, no pause'],['40','Questions in 3 passages'],['Band 6 → 7','Passages get harder'],['Auto','Submits when time is up']],
+rules:[
+ 'The timer starts when you press <b>Start</b> and cannot be paused. Your answers are submitted automatically at 00:00.',
+ 'There are no hints and no answers until you submit. Spelling counts for written answers.',
+ 'Move between passages with the tabs. Use the numbers at the bottom to jump to any question; ⚑ flags a question to check later.',
+ 'Use the <b>🖍 Highlighter</b> to mark the passage, just as you would underline on paper.',
+ 'Leaving this page is recorded. Use <b>💾 Save</b> only if your teacher asks you to (for example, if the computer has a problem).'
+],
+bands:[[39,9],[37,8.5],[35,8],[33,7.5],[30,7],[27,6.5],[23,6],[19,5.5],[15,5],[13,4.5],[10,4],[8,3.5],[6,3],[4,2.5],[0,0]],
+parts:[
+{label:'Passage 1', short:'P1', range:'1–13', passage:{title:'The Case for Doodling', sub:'Are those little drawings in the margin a sign of boredom, or a way to pay attention?', paras:[
+ {l:'A', t:'For generations, doodling in class has been treated as a bad habit. A student who draws small shapes in the margin of a notebook is usually assumed to be bored or not listening, and many teachers have asked students to put their pens down and look at the board. In recent years, however, a growing number of researchers have begun to question this view. Their work suggests that these quick, unplanned drawings may actually help people to concentrate and to remember what they hear.'},
+ {l:'B', t:'One of the best-known studies on the subject was carried out in 2009 by Jackie Andrade, a psychologist at the University of Plymouth in the UK. Andrade asked 40 volunteers to listen to a dull, two-and-a-half-minute telephone message about a birthday party. The message contained the names of people who were coming, as well as several place names. Half of the volunteers were asked to shade in shapes on a sheet of paper while they listened, while the other half simply listened. Neither group was told that there would be a memory test afterwards. When the volunteers were later asked to recall the names, the doodlers remembered 29 percent more information than the non-doodlers.'},
+ {l:'C', t:'Andrade\'s explanation was that doodling keeps the brain at the right level of activity. When a task is boring, the mind easily wanders, and people start daydreaming about other things, such as their plans for the weekend. Daydreaming uses a surprising amount of mental energy, and it pulls attention away from the task. Doodling, on the other hand, demands very little thought. It seems to stop the mind from drifting too far away without using up the energy that is needed for listening.'},
+ {l:'D', t:'Not all experts accept this explanation completely, and some believe that the type of drawing makes a difference. In later studies, students who drew simple pictures connected to the content of a lesson tended to remember more than students who drew unrelated patterns. Other researchers have pointed out that doodling may help during listening tasks but get in the way during visual tasks, such as reading a diagram or a map. This is because drawing and looking closely at an image both rely on the same visual resources in the brain, so the two activities compete with each other.'},
+ {l:'E', t:'There may be emotional benefits too. In 2017, a team at Drexel University in the United States measured blood flow in the front part of the brain while adults spent a few minutes doodling, colouring or drawing freely. All three activities increased blood flow to the brain\'s reward pathway — the system that makes us feel pleased when we achieve something — but doodling had the strongest effect. The researchers concluded that doodling could make people feel more positive about themselves, even if they did not consider themselves artistic.'},
+ {l:'F', t:'Partly as a result of this research, some teachers have started to treat drawing as a learning tool rather than a distraction. One popular method is "sketchnoting", in which students take notes using a mixture of words, small pictures, arrows and boxes. Supporters of the method say that it forces students to think about how ideas are connected, instead of trying to copy down every word the teacher says. It also produces notes that are easier to review before an exam.'},
+ {l:'G', t:'Of course, doodling is not a magic solution. A student who spends a whole lecture drawing detailed cartoons is unlikely to learn very much. According to researchers, the most helpful doodles are made of simple shapes and lines that require no planning, so that the hand stays busy while the mind stays with the speaker. Teachers might therefore consider allowing students to doodle during lectures and listening activities, while asking them to stop when they need to study pictures, charts or written texts closely.'}
+]}},
+{label:'Passage 2', short:'P2', range:'14–26', passage:{title:'Guardians of the Coast', sub:'The mangrove forests of Abu Dhabi and why they matter', paras:[
+ {l:'A', t:'Along the shallow shores of Abu Dhabi, where the land slowly gives way to the sea, grows a plant that few others could live alongside. Mangroves are trees and shrubs that live in salty coastal water, in conditions that would kill most land plants within days. They are found in more than 100 tropical and subtropical countries around the world, but only one species, the grey mangrove, is native to the UAE. In Abu Dhabi, it lines the edges of islands and lagoons, from the Eastern Mangroves close to the city centre to the protected areas around Jubail Island.'},
+ {l:'B', t:'Surviving in such a harsh environment requires some remarkable adaptations. Seawater contains far too much salt for most plants, but the roots of the grey mangrove are able to filter out most of it before water enters the tree. Any salt that does get through is pushed out through special glands in the leaves, and on a hot day small white salt crystals can often be seen on the leaf surface. The mud in which mangroves grow presents a second problem: it contains very little oxygen. To deal with this, the trees send up hundreds of thin, pencil-like roots, called pneumatophores, which stick out of the mud and take in air at low tide.'},
+ {l:'C', t:'These tangled roots do more than keep the trees alive. Under the water, they form a maze where small fish, shrimps and crabs can hide from larger animals. For this reason, mangroves are often described as the "nurseries" of the sea: many species spend the early part of their lives among the roots before moving out to coral reefs or the open sea as adults. Scientists estimate that a large proportion of the fish caught commercially in tropical regions depend on mangroves at some stage of their lives. The forests also attract birds such as herons and flamingos, which come to feed in the shallow water.'},
+ {l:'D', t:'In recent years, mangroves have attracted attention for another reason: their ability to store carbon. Like all plants, they take in carbon dioxide from the air as they grow. What makes mangroves unusual is where this carbon ends up. Because their waterlogged soil contains so little oxygen, dead leaves and roots break down very slowly, and much of the carbon remains locked in the mud for hundreds or even thousands of years. Some studies suggest that, area for area, mangrove forests can store several times more carbon than tropical rainforests, with most of it found below the ground rather than in the trees themselves.'},
+ {l:'E', t:'Despite their value, mangroves have been disappearing at an alarming rate. Around the world, it is estimated that between a fifth and a third of all mangrove forests were lost in the second half of the twentieth century. Some were cleared to make space for shrimp farms and agriculture; others were removed for ports, hotels and housing along the coast. Pollution and changes to the natural flow of water have damaged many more. When mangroves are destroyed, not only is the wildlife habitat lost, but the carbon stored in the soil can also be released back into the atmosphere.'},
+ {l:'F', t:'The UAE has responded with some ambitious goals. In 2021, the country announced a plan to plant 100 million mangroves by 2030, and in Abu Dhabi mangroves are protected by law, with heavy fines for anyone who cuts or damages them. New technology is also playing a role. Researchers have tested drones that can drop seeds into areas that are difficult to reach on foot, allowing large areas of coastline to be planted much more quickly than by hand.'},
+ {l:'G', t:'However, experts warn that planting large numbers of trees is only part of the answer. In many projects around the world, a high percentage of young mangroves die within a few years because they have been planted in the wrong place — for example, where the water is too deep or the tide does not reach. Success therefore depends on careful study of each site, as well as long-term monitoring. Education matters too. Every year, thousands of schoolchildren and residents in Abu Dhabi visit the mangroves on foot or by kayak, and many conservationists believe that people who learn to value these forests are the ones most likely to protect them in the future.'}
+]}},
+{label:'Passage 3', short:'P3', range:'27–40', passage:{title:'Is Younger Always Better?', sub:'What research really says about age and learning a second language', paras:[
+ {l:'A', t:'Ask most parents when a child should start learning a foreign language, and they will probably answer, "As early as possible." The idea that young children absorb languages effortlessly, while adults struggle, is so widely accepted that many countries have moved the start of English lessons into the first years of primary school. Yet researchers who have studied the question closely have found that the relationship between age and language learning is considerably more complicated than this popular belief suggests.'},
+ {l:'B', t:'The idea has a long history. In 1967, the linguist Eric Lenneberg proposed what became known as the "critical period hypothesis". He argued that the brain is especially well suited to learning language during childhood, and that changes in the brain around puberty make language acquisition much harder afterwards. Lenneberg was mainly interested in how children learn their first language, but his ideas were soon applied to second languages as well.'},
+ {l:'C', t:'Some of the strongest support for the hypothesis came from a study published in 1989 by Jacqueline Johnson and Elissa Newport. They tested Chinese and Korean speakers who had moved to the United States at different ages, asking them to judge whether a series of English sentences were grammatically correct. Those who had arrived before the age of seven performed just like native speakers, but scores became steadily lower the later people had arrived. Since all of the participants had lived in the US for several years, the researchers concluded that age of arrival, rather than length of stay, was the key factor.'},
+ {l:'D', t:'Pronunciation provides perhaps the clearest evidence of an early advantage. The psychologist Patricia Kuhl has shown that very young babies can hear the differences between the sounds of every human language. By the time they are about a year old, however, they have become specialists in the sounds of the language around them, and have begun to lose the ability to distinguish sounds that their own language does not use. This may help to explain why people who learn a language later in life often keep a noticeable accent, even when their grammar and vocabulary are excellent.'},
+ {l:'E', t:'In 2018, a team led by Joshua Hartshorne published the largest study of the subject so far. More than 600,000 people completed an online grammar quiz, and the researchers used their answers to estimate how learning ability changes with age. They found that the ability to learn grammar remains strong until around the age of 17 or 18 — much later than many had assumed — before gradually declining. However, because learning a language to a high level takes many years, the team calculated that learners would need to start before about the age of ten to have a realistic chance of reaching native-like grammar.'},
+ {l:'F', t:'The picture changes, though, when we leave immigrant communities and look at ordinary classrooms. All of the studies described above involved people who were surrounded by a language every day. Most school pupils, by contrast, study a foreign language for only two or three hours a week. In a long-term project in Spain, the linguist Carmen Muñoz compared students who had started English lessons at different ages. She found that those who started later, at around eleven, actually made faster progress than those who started at eight, and that after the same number of hours of teaching, the early starters were not ahead. Her conclusion was that in classroom settings, the amount and quality of input — how much English learners hear and read, and how meaningful it is — matter far more than the age at which lessons begin.'},
+ {l:'G', t:'None of this means that early language teaching is a waste of time. Children who enjoy their first lessons often develop a positive attitude towards the language and towards the people who speak it, and this attitude can motivate them to keep learning for many years. Older learners, meanwhile, bring advantages of their own: they can use their knowledge of grammar, their reading skills and their study strategies to learn more efficiently. The real lesson from the research, then, is not that there is a single perfect age to begin, but that what happens after learners begin is what matters most. For parents and teachers, a late start is no reason to panic.'}
+]}}
+],
+groups:[
+/* ---------- Passage 1 ---------- */
+{part:0, range:'1–6', qtype:'True / False / Not Given', type:'tfng',
+ instr:'Do the following statements agree with the information given in Reading Passage 1? Choose <b>TRUE</b> if the statement agrees with the information, <b>FALSE</b> if the statement contradicts the information, or <b>NOT GIVEN</b> if there is no information on this.',
+ items:[
+  {n:1, text:'In the past, teachers commonly saw doodling as evidence that a student was not paying attention.', ans:'TRUE', ev:'Para A: "…usually assumed to be bored or not listening…"'},
+  {n:2, text:'The volunteers in Andrade\'s study were warned in advance that their memory would be tested.', ans:'FALSE', ev:'Para B: "Neither group was told that there would be a memory test afterwards."'},
+  {n:3, text:'The telephone message used in Andrade\'s study was recorded by a professional actor.', ans:'NOT GIVEN', ev:'Para B describes the message but says nothing about who recorded it.'},
+  {n:4, text:'The volunteers who shaded shapes recalled more names than those who only listened.', ans:'TRUE', ev:'Para B: "the doodlers remembered 29 percent more information…"'},
+  {n:5, text:'Daydreaming requires less mental energy than doodling.', ans:'FALSE', ev:'Para C: daydreaming "uses a surprising amount of mental energy"; doodling "demands very little thought".'},
+  {n:6, text:'Andrade went on to repeat her experiment with primary school children.', ans:'NOT GIVEN', ev:'No later experiment by Andrade with children is mentioned.'}
+ ]},
+{part:0, range:'7–13', qtype:'Summary completion', type:'notes', title:'Why doodling may help',
+ instr:'Complete the summary below. Choose <b>ONE WORD ONLY</b> from the passage for each answer.',
+ html:'<p style="line-height:2.4">Andrade believes that doodling keeps the brain working at the correct level of {7}. During a boring task, the mind often wanders, and people begin {8} about other things, which takes attention away from the task. However, doodling may not help during {9} tasks such as studying a diagram, because both activities compete for the same resources in the brain.</p><p style="line-height:2.4">A study in 2017 found that doodling increased blood flow to the brain\'s {10} pathway, which may make people feel more positive. In schools, a method called {11} mixes words with small pictures, arrows and boxes, and encourages students to think about how ideas are {12}. Researchers advise that the best doodles are simple shapes and lines that need no {13}.</p>',
+ ans:{7:['activity'],8:['daydreaming'],9:['visual'],10:['reward'],11:['sketchnoting','sketch-noting','sketch noting'],12:['connected'],13:['planning']},
+ ev:{7:'Para C: "the right level of activity"',8:'Para C: "people start daydreaming about other things"',9:'Para D: "visual tasks, such as reading a diagram"',10:'Para E: "the brain\'s reward pathway"',11:'Para F: "One popular method is \'sketchnoting\'"',12:'Para F: "think about how ideas are connected"',13:'Para G: "simple shapes and lines that require no planning"'},
+ items:[7,8,9,10,11,12,13].map(n=>({n}))},
+
+/* ---------- Passage 2 ---------- */
+{part:1, range:'14–19', qtype:'Matching headings', type:'select',
+ instr:'Reading Passage 2 has seven paragraphs, <b>A–G</b>. Choose the correct heading for paragraphs <b>B–G</b> from the list of headings below.',
+ box:{title:'List of Headings', items:[['i','National targets and modern methods'],['ii','The growing value of mangrove timber'],['iii','Shelter for the ocean\'s young'],['iv','A survivor in a difficult place'],['v','Success requires more than numbers'],['vi','How the trees cope with salt and airless mud'],['vii','Tourism as the main threat to coastal forests'],['viii','A hidden store beneath the surface'],['ix','A worldwide loss and its consequences']]},
+ example:'<b>Example:</b> Paragraph A — <b>iv</b>',
+ letters:['i','ii','iii','iv','v','vi','vii','viii','ix'],
+ items:[
+  {n:14, text:'Paragraph B', ans:'vi', ev:'Para B: roots filter salt; pneumatophores take in air from the airless mud.'},
+  {n:15, text:'Paragraph C', ans:'iii', ev:'Para C: "nurseries" of the sea — young fish, shrimps and crabs hide among the roots.'},
+  {n:16, text:'Paragraph D', ans:'viii', ev:'Para D: carbon "remains locked in the mud… most of it found below the ground".'},
+  {n:17, text:'Paragraph E', ans:'ix', ev:'Para E: a fifth to a third lost around the world; habitat lost and carbon released.'},
+  {n:18, text:'Paragraph F', ans:'i', ev:'Para F: 100 million mangroves by 2030 (target) and drones (modern method).'},
+  {n:19, text:'Paragraph G', ans:'v', ev:'Para G: "planting large numbers of trees is only part of the answer".'}
+ ]},
+{part:1, range:'20–23', qtype:'Multiple choice', type:'mc',
+ instr:'Choose the correct letter, <b>A, B, C or D</b>.',
+ items:[
+  {n:20, text:'Why do grey mangroves produce pneumatophores?', ans:'B', ev:'Para B: they "stick out of the mud and take in air at low tide".',
+   opts:[['A','to remove the extra salt from seawater'],['B','to take in air that the mud cannot supply'],['C','to hold the tree firmly in the soft mud'],['D','to store water during long dry periods']]},
+  {n:21, text:'According to paragraph C, mangroves are called "nurseries" because', ans:'C', ev:'Para C: "many species spend the early part of their lives among the roots before moving out…"',
+   opts:[['A','fishermen keep young fish there before selling them.'],['B','birds build their nests among the mangrove roots.'],['C','young sea animals live there before moving elsewhere.'],['D','new mangrove trees grow up from the old roots.']]},
+  {n:22, text:'What makes mangroves particularly good at storing carbon?', ans:'D', ev:'Para D: "Because their waterlogged soil contains so little oxygen, dead leaves and roots break down very slowly…"',
+   opts:[['A','They grow much faster than most other trees.'],['B','Their leaves take in carbon dioxide all night.'],['C','They are larger than the trees in rainforests.'],['D','Dead material breaks down slowly in their soil.']]},
+  {n:23, text:'According to the writer, why do many young mangroves die?', ans:'A', ev:'Para G: "…because they have been planted in the wrong place".',
+   opts:[['A','They are planted in unsuitable locations.'],['B','They are damaged by visitors in kayaks.'],['C','They are eaten by fish and other animals.'],['D','They receive too little attention from drones.']]}
+ ]},
+{part:1, range:'24–26', qtype:'Sentence completion', type:'gap',
+ instr:'Complete the sentences below. Choose <b>NO MORE THAN TWO WORDS</b> from the passage for each answer.',
+ items:[
+  {n:24, text:'The grey mangrove is the only mangrove species that is {} to the UAE.', ans:['native'], ev:'Para A: "only one species, the grey mangrove, is native to the UAE".'},
+  {n:25, text:'On a hot day, small white {} may be visible on mangrove leaves.', ans:['salt crystals','crystals'], ev:'Para B: "small white salt crystals can often be seen on the leaf surface".'},
+  {n:26, text:'People who cut mangroves in Abu Dhabi can be given {}.', ans:['heavy fines','fines'], ev:'Para F: "with heavy fines for anyone who cuts or damages them".'}
+ ]},
+
+/* ---------- Passage 3 ---------- */
+{part:2, range:'27–31', qtype:'Matching features', type:'select',
+ instr:'Look at the following findings (Questions 27–31) and the list of researchers below. Match each finding with the correct researcher(s), <b>A–E</b>.',
+ box:{title:'List of Researchers', items:[['A','Eric Lenneberg'],['B','Jacqueline Johnson and Elissa Newport'],['C','Patricia Kuhl'],['D','Joshua Hartshorne\'s team'],['E','Carmen Muñoz']]},
+ letters:['A','B','C','D','E'],
+ items:[
+  {n:27, text:'Students who began lessons later made quicker progress than younger starters.', ans:'E', ev:'Para F: "those who started later, at around eleven, actually made faster progress…"'},
+  {n:28, text:'The ability to learn grammar stays high until the late teenage years.', ans:'D', ev:'Para E: "remains strong until around the age of 17 or 18".'},
+  {n:29, text:'Changes in the brain at puberty make learning a language more difficult.', ans:'A', ev:'Para B: "changes in the brain around puberty make language acquisition much harder".'},
+  {n:30, text:'Infants gradually lose the ability to tell apart sounds not used in their own language.', ans:'C', ev:'Para D: "begun to lose the ability to distinguish sounds that their own language does not use".'},
+  {n:31, text:'The age at which people moved to a new country mattered more than how long they had lived there.', ans:'B', ev:'Para C: "age of arrival, rather than length of stay, was the key factor".'}
+ ]},
+{part:2, range:'32–36', qtype:'Yes / No / Not Given', type:'tfng', opts:['YES','NO','NOT GIVEN'],
+ instr:'Do the following statements agree with the views of the writer in Reading Passage 3? Choose <b>YES</b> if the statement agrees with the views of the writer, <b>NO</b> if the statement contradicts the views of the writer, or <b>NOT GIVEN</b> if it is impossible to say what the writer thinks about this.',
+ items:[
+  {n:32, text:'The popular belief that children always learn languages more easily than adults is too simple.', ans:'YES', ev:'Para A: the relationship is "considerably more complicated than this popular belief suggests".'},
+  {n:33, text:'Findings from studies of immigrants can be applied directly to school classrooms.', ans:'NO', ev:'Para F: "The picture changes, though, when we… look at ordinary classrooms."'},
+  {n:34, text:'Online studies produce more reliable results than studies carried out in person.', ans:'NOT GIVEN', ev:'Para E calls Hartshorne\'s study the largest, but the writer never compares its reliability with in-person studies.'},
+  {n:35, text:'Teaching foreign languages to young children in primary school has little value.', ans:'NO', ev:'Para G: "None of this means that early language teaching is a waste of time."'},
+  {n:36, text:'Older learners can use skills they already have to learn more efficiently.', ans:'YES', ev:'Para G: "they can use their knowledge of grammar, their reading skills and their study strategies to learn more efficiently".'}
+ ]},
+{part:2, range:'37–40', qtype:'Matching sentence endings', type:'select',
+ instr:'Complete each sentence with the correct ending, <b>A–F</b>, below.',
+ box:{title:'Endings', items:[['A','can motivate learners to continue studying for many years.'],['B','is the only way to reach native-like grammar.'],['C','tend to reach a higher final level if they arrive at a young age.'],['D','may still keep a noticeable accent if they started later in life.'],['E','the amount and quality of input matter more than the starting age.'],['F','usually stops children from learning their first language properly.']]},
+ letters:['A','B','C','D','E','F'],
+ items:[
+  {n:37, text:'People who move to a country where a language is used all around them', ans:'C', ev:'Para C: those who arrived before seven performed like native speakers; scores fell the later they arrived.'},
+  {n:38, text:'In schools where pupils study a language for only a few hours a week,', ans:'E', ev:'Para F: "in classroom settings, the amount and quality of input… matter far more than the age…"'},
+  {n:39, text:'Even learners with excellent grammar and vocabulary', ans:'D', ev:'Para D: "people who learn a language later in life often keep a noticeable accent, even when their grammar and vocabulary are excellent".'},
+  {n:40, text:'Enjoying the first language lessons in primary school', ans:'A', ev:'Para G: "this attitude can motivate them to keep learning for many years".'}
+ ]}
+],
+glossary:[
+ {title:'Passage 1 · The Case for Doodling', items:[['concentrate','focus your attention','يركّز'],['recall','remember','يتذكّر / يستعيد'],['daydreaming','thinking about pleasant things instead of the task','أحلام اليقظة'],['distraction','something that takes your attention away','مصدر تشتيت'],['compete','try to get the same thing','يتنافس'],['margin','the empty space at the side of a page','هامش الصفحة']]},
+ {title:'Passage 2 · Guardians of the Coast', items:[['native','originally from a place','أصلي / محلي'],['adaptation','a change that helps a living thing survive','تكيّف'],['habitat','the natural home of an animal or plant','موطن طبيعي'],['waterlogged','completely full of water','مشبع بالماء'],['monitoring','checking something regularly','مراقبة / متابعة'],['conservationist','a person who protects nature','ناشط في حماية البيئة']]},
+ {title:'Passage 3 · Is Younger Always Better?', items:[['hypothesis','an idea that needs to be tested','فرضية'],['acquisition','learning or getting a skill','اكتساب'],['puberty','the time when a child\'s body becomes adult','سن البلوغ'],['distinguish','see or hear the difference','يميّز'],['input','the language a learner hears and reads','المُدخلات اللغوية'],['motivate','make someone want to do something','يحفّز']]}
+]
+};
+</script>
+<script>(function(){
+"use strict";
+const C = window.EXAM;
+const LISTEN = C.skill === 'listening';
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+const S = {app:C.id, name:'', cid:'', answers:{}, flags:{}, remaining:C.duration||0, started:false, submitted:false,
+  tabSwitches:0, highlights:{}, audioTime:0, phase:'audio', part:0, startedAt:null, finishedAt:null, warned:false};
+let running = false, endAt = 0, aud = null, hlOn = false, tick = null;
+
+/* ---------- question index ---------- */
+const QI = {}; // n -> {group, item, kind}
+const ORDER = [];
+C.groups.forEach(g => g.items.forEach(it => {
+  const nums = it.nums || [it.n];
+  nums.forEach((n, k) => { QI[n] = {g, it, k}; ORDER.push(n); });
+}));
+ORDER.sort((a,b)=>a-b);
+const TOTAL = ORDER.length;
+
+/* ---------- build shell ---------- */
+function fmt(sec){ sec = Math.max(0, Math.round(sec)); const m = Math.floor(sec/60), s = sec%60; return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'); }
+
+function buildStart(){
+  const facts = C.facts.map(f => `<div class="fact"><b>${f[0]}</b><span>${f[1]}</span></div>`).join('');
+  const rules = C.rules.map(r => `<li>${r}</li>`).join('');
+  return `<section id="start"><div class="start-card">
+   <div class="start-head"><span class="tag">${esc(C.tag)}</span><h1>${esc(C.title)}</h1><p>${esc(C.subtitle)}</p></div>
+   <div class="start-body">
+     <div class="facts">${facts}</div>
+     <div class="rules"><h3>Exam rules</h3><ul>${rules}</ul></div>
+     <div class="field-row"><div><label for="sname">Full name</label><input id="sname" autocomplete="off" placeholder="Type your full name"></div>
+     <div><label for="sid">Student ID</label><input id="sid" autocomplete="off" placeholder="H00..."></div></div>
+     <div class="start-actions">
+       <button class="btn btn-primary btn-big" id="startBtn" disabled>Start the exam ▸</button>
+       <label class="btn btn-ghost" style="display:inline-block">📂 Load saved exam<input type="file" id="loadFile" accept=".json,application/json" hidden></label>
+     </div>
+     ${LISTEN ? '<p class="meta" style="margin-top:14px">🎧 Put your headphones on and check the volume before you press Start. The recording begins straight away.</p>' : ''}
+     <div class="credit">Designed by: Nazila Motahari</div>
+   </div></div></section>`;
+}
+
+function buildExam(){
+  const tabs = C.parts.map((p,i)=>`<button class="parttab" data-part="${i}">${esc(p.label)}<span class="cnt">${esc(p.range)}</span></button>`).join('');
+  const passages = LISTEN ? '' : `<div class="pane passage" id="passage">${C.parts.map((p,i)=>`<div class="pwrap" data-part="${i}" id="pw${i}">
+      <div class="readhead">${esc(p.label)} · Questions ${esc(p.range)}</div><h2>${esc(p.passage.title)}</h2>${p.passage.sub?`<p class="sub">${esc(p.passage.sub)}</p>`:''}
+      ${p.passage.paras.map(x=>`<p>${x.l?`<span class="pl">${x.l}</span>`:''}${x.t}</p>`).join('')}</div>`).join('')}</div>`;
+  const qparts = C.parts.map((p,i)=>`<div class="qpart" data-part="${i}">${C.groups.filter(g=>g.part===i).map(renderGroup).join('')}</div>`).join('');
+  const nav = C.parts.map((p,i)=>`<span class="nl">${esc(p.short||p.label)}</span>`+ORDER.filter(n=>QI[n].g.part===i).map(n=>`<button class="nb" data-n="${n}">${n}</button>`).join('')).join('');
+  return `<section id="exam" class="hidden">
+   <div class="topbar">
+     <span class="title">${esc(C.short)}</span><span class="who" id="who"></span><span class="spacer"></span>
+     <span class="fontctl no-print"><button id="fsMinus" title="Smaller text">A−</button><button id="fsPlus" title="Larger text">A+</button></span>
+     <div class="timer" id="timer"><small id="timerLbl">${LISTEN?'Recording':'Time left'}</small><span id="timerVal">--:--</span></div>
+     <button class="tb-btn" id="saveBtn">💾 Save</button>
+     <button class="tb-btn submit" id="submitBtn">Submit ✓</button>
+     <button class="gear" id="gear" title="Teacher">⚙</button>
+   </div>
+   ${LISTEN ? `<div class="audiobar"><span class="icon">🎧</span><span class="st" id="aState">Ready</span><div class="prog"><i id="aProg"></i></div><span class="t" id="aTime">00:00 / --:--</span></div>`:''}
+   <div class="partbar">${tabs}${LISTEN?'':'<button class="hl-toggle" id="hlBtn" title="Select text in the passage to highlight it. Click a highlight to remove it.">🖍 Highlighter: off</button>'}</div>
+   <div class="main">${passages}<div class="pane qs ${LISTEN?'full':''}" id="qs">${qparts}</div></div>
+   <div class="navbar" id="nav">${nav}</div>
+   ${LISTEN?`<audio id="aud" preload="auto" src="${esc(C.audio)}"></audio>`:''}
+  </section>
+  <section id="results" class="hidden"></section>`;
+}
+
+function qhead(n, label){ return `<div class="qn" id="qn${n}">${label||n}</div>`; }
+function flagBtn(n){ return `<button class="flag no-print" data-flag="${n}" title="Flag for review">⚑</button>`; }
+
+function renderGroup(g){
+  let h = `<div class="group" data-type="${esc(g.qtype)}"><h3>Questions ${esc(g.range)}${g.title?` — ${esc(g.title)}`:''}</h3><p class="instr">${g.instr}</p>`;
+  if (g.box) h += `<div class="optbox">${g.box.title?`<h4>${esc(g.box.title)}</h4>`:''}${g.box.items.map(o=>`<div><span class="L">${esc(o[0])}</span>${esc(o[1])}</div>`).join('')}</div>`;
+  if (g.example) h += `<div class="example">${g.example}</div>`;
+  if (g.type === 'notes'){
+    h += `<div class="notes">${g.html.replace(/\{(\d+)\}/g,(m,n)=>`<span class="gapwrap" id="qb${n}"><b>${n}</b><input class="gap" id="q${n}" data-n="${n}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">${flagBtn(n)}</span>`)}</div>`;
+  } else {
+    g.items.forEach(it => {
+      if (g.type === 'tfng'){
+        const opts = g.opts || ['TRUE','FALSE','NOT GIVEN'];
+        h += `<div class="q" id="qb${it.n}">${qhead(it.n)}<div class="qbody"><p>${it.text}${flagBtn(it.n)}</p><div class="tfng">${opts.map(o=>`<label><input type="radio" name="q${it.n}" value="${o}" data-n="${it.n}">${o}</label>`).join('')}</div></div></div>`;
+      } else if (g.type === 'mc'){
+        h += `<div class="q" id="qb${it.n}">${qhead(it.n)}<div class="qbody"><p>${it.text}${flagBtn(it.n)}</p><div class="opts">${it.opts.map(o=>`<label><input type="radio" name="q${it.n}" value="${o[0]}" data-n="${it.n}"><span class="ol">${o[0]}</span><span>${esc(o[1])}</span></label>`).join('')}</div></div></div>`;
+      } else if (g.type === 'two'){
+        const [a,b] = it.nums;
+        h += `<div class="q" id="qb${a}">${qhead(a, a+'–'+b)}<div class="qbody"><p>${it.text}${flagBtn(a)}</p><div class="opts">${it.opts.map(o=>`<label><input type="checkbox" name="q${a}" value="${o[0]}" data-two="${a}"><span class="ol">${o[0]}</span><span>${esc(o[1])}</span></label>`).join('')}</div></div></div>`;
+      } else if (g.type === 'select'){
+        h += `<div class="q" id="qb${it.n}">${qhead(it.n)}<div class="qbody"><p>${it.text}${flagBtn(it.n)}</p><select class="ans" id="q${it.n}" data-n="${it.n}"><option value="">— choose —</option>${g.letters.map(l=>`<option value="${l}">${l}</option>`).join('')}</select></div></div>`;
+      } else if (g.type === 'gap'){
+        h += `<div class="q" id="qb${it.n}">${qhead(it.n)}<div class="qbody"><p>${it.text.replace('{}',`<input class="gap" id="q${it.n}" data-n="${it.n}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">`)}${flagBtn(it.n)}</p></div></div>`;
+      }
+    });
+  }
+  return h + '</div>';
+}
+
+/* ---------- answers ---------- */
+function isAnswered(n){
+  const q = QI[n];
+  if (q.g.type === 'two'){ const a = S.answers[q.it.nums[0]] || []; return a.length > q.k; }
+  const v = S.answers[n]; return v != null && String(v).trim() !== '';
+}
+function restoreInputs(){
+  Object.keys(QI).forEach(n => {
+    n = +n; const q = QI[n]; const v = S.answers[n];
+    if (q.g.type === 'two'){ if (q.k) return; const arr = S.answers[n] || []; $$(`input[data-two="${n}"]`).forEach(i => i.checked = arr.includes(i.value)); }
+    else if (q.g.type === 'tfng' || q.g.type === 'mc'){ $$(`input[name="q${n}"]`).forEach(i => i.checked = (i.value === v)); }
+    else { const el = $('#q'+n); if (el) el.value = v || ''; }
+  });
+  $$('.opts label, .tfng label').forEach(l => l.classList.toggle('sel', l.querySelector('input').checked));
+  refreshNav();
+}
+function refreshNav(){
+  $$('.nb').forEach(b => { const n = +b.dataset.n; b.classList.toggle('done', isAnswered(n)); b.classList.toggle('flagged', !!S.flags[n]); });
+  $$('.flag').forEach(f => f.classList.toggle('on', !!S.flags[f.dataset.flag]));
+  C.parts.forEach((p,i)=>{ const nums = ORDER.filter(n=>QI[n].g.part===i); const done = nums.filter(isAnswered).length; const t = $(`.parttab[data-part="${i}"] .cnt`); if (t) t.textContent = `${done}/${nums.length}`; });
+}
+function onAnswer(e){
+  const t = e.target;
+  if (t.dataset.two){
+    const a = +t.dataset.two; let arr = $$(`input[data-two="${a}"]:checked`).map(i=>i.value);
+    if (arr.length > 2){ t.checked = false; arr = arr.filter(v=>v!==t.value); toast('Choose only TWO letters.'); }
+    S.answers[a] = arr.sort();
+  } else if (t.dataset.n){ S.answers[+t.dataset.n] = t.value; }
+  else return;
+  $$('.opts label, .tfng label').forEach(l => l.classList.toggle('sel', l.querySelector('input').checked));
+  refreshNav();
+}
+
+/* ---------- marking ---------- */
+function norm(s){ return String(s||'').toLowerCase().replace(/[’'`]/g,'').replace(/[^a-z0-9]+/g,' ').trim().replace(/^(the|a|an) /,''); }
+function mark(){
+  const rows = [];
+  ORDER.forEach(n => {
+    const q = QI[n], g = q.g, it = q.it; let given, ok, key;
+    if (g.type === 'two'){
+      const arr = S.answers[it.nums[0]] || []; const hits = arr.filter(v=>it.ans.includes(v)).length;
+      ok = hits > q.k;
+      if (q.k){ given = `<span class="meta">see Q${it.nums[0]}</span>`; key = '<span class="meta">1 mark per correct letter</span>'; }
+      else { given = esc(arr.join(', ') || '—'); key = it.ans.join(' and ') + ' <span class="meta">(any order)</span>'; }
+    } else if (g.type === 'gap' || g.type === 'notes'){
+      const acc = (g.type==='notes' ? g.ans[n] : it.ans); given = S.answers[n] || '';
+      const gn = norm(given), gs = gn.replace(/ /g,'');
+      ok = gn !== '' && acc.some(a => norm(a) === gn || norm(a).replace(/ /g,'') === gs);
+      key = acc[0] + (acc.length>1 ? ` <span class="meta">(also: ${acc.slice(1).join(' / ')})</span>` : '');
+      given = esc(given || '—');
+    } else {
+      given = esc(S.answers[n] || '—'); ok = S.answers[n] === it.ans; key = it.ans;
+    }
+    const ev = g.type==='notes' ? (g.ev && g.ev[n]) : it.ev;
+    rows.push({n, ok, given, key, type:g.qtype, part:g.part, ev:ev||''});
+  });
+  const score = rows.filter(r=>r.ok).length;
+  return {rows, score, band: toBand(score)};
+}
+function toBand(s){ for (const [min,b] of C.bands) if (s >= min) return b; return 0; }
+
+/* ---------- timer ---------- */
+function startClock(){ running = true; if (!LISTEN || S.phase==='check') endAt = Date.now() + S.remaining*1000; }
+function loop(){
+  if (!S.started || S.submitted) return;
+  if (LISTEN){
+    if (S.phase === 'audio'){
+      const d = aud.duration || 0, ct = aud.currentTime || 0;
+      $('#aProg').style.width = d ? (ct/d*100)+'%' : '0';
+      $('#aTime').textContent = fmt(ct)+' / '+(d?fmt(d):'--:--');
+      $('#timerVal').textContent = d ? fmt(d-ct) : '--:--';
+      if (!aud.paused) S.audioTime = ct;
+    } else if (running){
+      S.remaining = Math.max(0,(endAt - Date.now())/1000);
+      $('#timerVal').textContent = fmt(S.remaining);
+      $('#timer').classList.toggle('warn', S.remaining <= 30);
+      if (S.remaining <= 0) finish(true);
+    }
+  } else if (running){
+    S.remaining = Math.max(0,(endAt - Date.now())/1000);
+    $('#timerVal').textContent = fmt(S.remaining);
+    $('#timer').classList.toggle('warn', S.remaining <= 300);
+    if (S.remaining <= 300 && !S.warned){ S.warned = true; toast('⏰ 5 minutes left. Check that every question has an answer.', 5000); }
+    if (S.remaining <= 0) finish(true);
+  }
+}
+
+/* ---------- listening audio ---------- */
+function wireAudio(){
+  aud = $('#aud');
+  aud.addEventListener('ended', () => {
+    S.phase = 'check'; S.remaining = C.checkTime; S.audioTime = aud.duration;
+    $('#aState').textContent = 'Recording finished'; $('#timerLbl').textContent = 'Check time';
+    $('#aProg').style.width = '100%';
+    endAt = Date.now() + S.remaining*1000; running = true;
+    toast(`🎧 The recording has finished. You have ${Math.round(C.checkTime/60)} minutes to check your answers.`, 6000);
+  });
+  aud.addEventListener('error', () => { $('#aState').textContent = '⚠ Audio not found'; toast(`Audio file "${C.audio}" could not be loaded. Ask your teacher.`, 8000, true); });
+  aud.addEventListener('playing', () => { $('#aState').textContent = 'Playing…'; });
+  aud.addEventListener('pause', () => { if (!aud.ended && S.phase==='audio') $('#aState').textContent = 'Paused by teacher'; });
+  // students cannot control the media: block keyboard media keys
+  if ('mediaSession' in navigator){ ['pause','seekbackward','seekforward','seekto','previoustrack','nexttrack'].forEach(a=>{ try{ navigator.mediaSession.setActionHandler(a, ()=>{}); }catch(e){} }); }
+}
+function playAudio(){
+  if (S.phase !== 'audio') { $('#aState').textContent='Recording finished'; $('#timerLbl').textContent='Check time'; startClock(); return; }
+  const go = () => { try { if (S.audioTime && Math.abs(aud.currentTime - S.audioTime) > 1) aud.currentTime = S.audioTime; } catch(e){}
+    const p = aud.play(); if (p) p.catch(()=>cover('Start the recording', 'Your browser needs one more click to play the audio.', 'Play ▸', playAudio)); };
+  if (aud.readyState >= 1) go(); else { $('#aState').textContent = 'Loading audio…'; aud.addEventListener('loadedmetadata', go, {once:true}); aud.load(); }
+}
+
+/* ---------- screens ---------- */
+function showPart(i){
+  S.part = i;
+  $$('.parttab').forEach(t=>t.classList.toggle('active', +t.dataset.part===i));
+  $$('.qpart').forEach(p=>p.classList.toggle('hidden', +p.dataset.part!==i));
+  $$('.pwrap').forEach(p=>p.classList.toggle('hidden', +p.dataset.part!==i));
+  $('#qs').scrollTop = 0; if ($('#passage')) $('#passage').scrollTop = 0;
+}
+function goTo(n){
+  const p = QI[n].g.part; if (p !== S.part) showPart(p);
+  const el = $('#qb'+n) || $('#qb'+QI[n].it.nums?.[0]);
+  if (el){ el.scrollIntoView({behavior:'smooth', block:'center'}); el.classList.remove('qflash'); void el.offsetWidth; el.classList.add('qflash'); const inp = $('#q'+n); if (inp && inp.focus) setTimeout(()=>inp.focus({preventScroll:true}),300); }
+}
+function enterExam(){
+  $('#start').classList.add('hidden'); $('#exam').classList.remove('hidden');
+  $('#who').textContent = `${S.name}${S.cid?' · '+S.cid:''}`;
+  if (!LISTEN) Object.keys(S.highlights).forEach(i => { const w = $('#pw'+i); if (w && S.highlights[i]) w.innerHTML = S.highlights[i]; });
+  restoreInputs(); showPart(S.part||0);
+  $('#timerVal').textContent = LISTEN ? '--:--' : fmt(S.remaining);
+}
+
+/* ---------- save / load ---------- */
+function snapshot(){
+  if (!LISTEN) C.parts.forEach((p,i)=>{ const w=$('#pw'+i); if (w) S.highlights[i] = w.innerHTML; });
+  if (LISTEN && aud && S.phase==='audio') S.audioTime = aud.currentTime;
+  return JSON.parse(JSON.stringify(S));
+}
+function download(name, text){ const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text],{type:'application/json'})); a.download = name; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 500); }
+function fileSafe(s){ return (s||'student').replace(/[^\w؀-ۿ-]+/g,'_'); }
+function save(){ const d = snapshot(); d.savedAt = new Date().toISOString(); download(`${C.id}_${fileSafe(S.name)}_progress.json`, JSON.stringify(d,null,1)); toast('💾 Progress saved to your Downloads folder. Load this file to continue later.', 4000); }
+function load(file){
+  const r = new FileReader();
+  r.onload = () => {
+    let d; try { d = JSON.parse(r.result); } catch(e){ return toast('That file could not be read.', 4000, true); }
+    if (d.app !== C.id) return toast('This save file belongs to a different app.', 5000, true);
+    Object.assign(S, d);
+    if (S.submitted){ $('#start').classList.add('hidden'); enterExam(); $('#exam').classList.add('hidden'); showResults(); return; }
+    enterExam(); S.started = true; running = false;
+    cover('Saved exam loaded', `Welcome back, ${esc(S.name)}. ${LISTEN ? (S.phase==='audio' ? 'The recording will continue from '+fmt(S.audioTime)+'.' : 'You are in the final check time: '+fmt(S.remaining)+' left.') : 'You have '+fmt(S.remaining)+' left.'}`, 'Continue ▸', resume);
+  };
+  r.readAsText(file);
+}
+
+/* ---------- pause cover / modals / toast ---------- */
+function cover(title, msg, btn, fn){
+  let c = $('#cover'); if (c) c.remove();
+  c = document.createElement('div'); c.id='cover'; c.className='pausecover';
+  c.innerHTML = `<h2>${title}</h2><p style="max-width:560px">${msg}</p>${btn?`<button class="btn btn-accent btn-big" id="coverBtn">${btn}</button>`:''}`;
+  document.body.appendChild(c); if (btn) $('#coverBtn').onclick = () => { c.remove(); fn && fn(); };
+}
+function modal(html){ const m = document.createElement('div'); m.className='modal'; m.innerHTML = `<div class="box">${html}</div>`; document.body.appendChild(m); return m; }
+let toastT;
+function toast(msg, ms=3000, warn=false){ let t = $('#toast'); if (!t){ t = document.createElement('div'); t.id='toast'; document.body.appendChild(t); } t.className = 'toast'+(warn?' warn':''); t.textContent = msg; t.style.display='block'; clearTimeout(toastT); toastT = setTimeout(()=>t.style.display='none', ms); }
+
+function pause(){
+  running = false;
+  if (LISTEN && S.phase==='audio') aud.pause(); else S.remaining = Math.max(0,(endAt-Date.now())/1000);
+  cover('⏸ Exam paused', 'Your teacher has paused the exam. Please wait.', null);
+}
+function resume(){ $('#cover') && $('#cover').remove(); if (LISTEN) playAudio(); else startClock(); }
+
+function teacher(){
+  const m = modal(`<h3>Teacher controls</h3><p class="meta">Enter the teacher PIN.</p><input type="password" id="pin" inputmode="numeric" maxlength="8"><div class="row"><button class="btn btn-ghost" id="pc">Cancel</button><button class="btn btn-primary" id="pk">Unlock</button></div>`);
+  const close = () => m.remove();
+  $('#pc').onclick = close; $('#pin').focus();
+  const go = () => {
+    if ($('#pin').value !== C.pin){ toast('Wrong PIN.', 2000, true); return; }
+    const paused = !!$('#cover');
+    m.querySelector('.box').innerHTML = `<h3>Teacher controls</h3><p class="meta">Tab switches recorded: <b>${S.tabSwitches}</b></p><div class="tpanel">
+      <button class="btn btn-primary" id="t1">${paused?'▶ Resume':'⏸ Pause'}</button>
+      ${LISTEN?'<button class="btn btn-ghost" id="t2">⏪ Back 20 seconds</button>':'<button class="btn btn-ghost" id="t2">＋5 minutes</button>'}
+      <button class="btn btn-ghost" id="t3">＋1 minute</button>
+      <button class="btn btn-accent" id="t4">End exam now</button></div><div class="row"><button class="btn btn-ghost" id="t5">Close</button></div>`;
+    $('#t1').onclick = () => { close(); paused ? resume() : pause(); };
+    $('#t2').onclick = () => { if (LISTEN){ if (S.phase==='audio'){ aud.currentTime = Math.max(0, aud.currentTime-20); toast('Audio moved back 20 seconds.'); } } else { addTime(300); } close(); };
+    $('#t3').onclick = () => { addTime(60); close(); };
+    $('#t4').onclick = () => { close(); $('#cover') && $('#cover').remove(); finish(true); };
+    $('#t5').onclick = close;
+  };
+  $('#pk').onclick = go; $('#pin').addEventListener('keydown', e => { if (e.key==='Enter') go(); });
+}
+function addTime(sec){
+  if (LISTEN && S.phase==='audio'){ C.checkTime += sec; toast(`Check time increased by ${sec/60} min.`); return; }
+  if (running) endAt += sec*1000; else S.remaining += sec;
+  S.warned = false; toast(`${sec/60} minute(s) added.`);
+}
+
+/* ---------- finish & results ---------- */
+function confirmSubmit(){
+  const left = ORDER.filter(n=>!isAnswered(n));
+  const m = modal(`<h3>Submit your answers?</h3><p>${left.length ? `You have <b>${left.length}</b> unanswered question(s): ${left.slice(0,20).join(', ')}${left.length>20?'…':''}.` : 'You have answered every question.'}</p><p>After you submit, you <b>cannot</b> change your answers.</p><div class="row"><button class="btn btn-ghost" id="mc">Go back</button><button class="btn btn-primary" id="mk">Submit now</button></div>`);
+  $('#mc').onclick = () => m.remove();
+  $('#mk').onclick = () => { m.remove(); finish(false); };
+}
+function finish(auto){
+  if (S.submitted) return;
+  snapshot(); running = false; if (aud) aud.pause();
+  S.submitted = true; S.finishedAt = new Date().toISOString();
+  $$('.modal').forEach(m=>m.remove());
+  if (auto) toast('⏱ Time is up. Your answers have been submitted.', 5000);
+  $('#exam').classList.add('hidden'); showResults();
+}
+
+function showResults(){
+  const R = mark(); S.result = {score:R.score, band:R.band};
+  const types = {};
+  R.rows.forEach(r => { (types[r.type] = types[r.type] || {c:0,t:0}); types[r.type].t++; if (r.ok) types[r.type].c++; });
+  const br = Object.entries(types).map(([k,v])=>{ const p = Math.round(v.c/v.t*100); return `<div class="brow"><span>${esc(k)}</span><b>${v.c}/${v.t}</b><div class="bbar"><i class="${p<50?'low':p<75?'mid':''}" style="width:${p}%"></i></div></div>`; }).join('');
+  const weakest = Object.entries(types).filter(([k,v])=>v.t>=2 && v.c<v.t).sort((a,b)=>a[1].c/a[1].t - b[1].c/b[1].t)[0];
+  const rev = C.parts.map((p,i)=>`<h3 style="color:var(--primary);margin:18px 0 6px">${esc(p.label)}${p.passage?': '+esc(p.passage.title):''}</h3><table class="rev"><tr><th>#</th><th>Your answer</th><th>Correct answer</th><th></th>${LISTEN?'':'<th>Where to find it</th>'}</tr>${R.rows.filter(r=>r.part===i).map(r=>`<tr><td><b>${r.n}</b></td><td>${r.given}</td><td>${r.key}</td><td>${r.ok?'<span class="ok">✓</span>':'<span class="no">✗</span>'}</td>${LISTEN?'':`<td class="ev">${r.ev}</td>`}</tr>`).join('')}</table>`).join('');
+  const gloss = (C.glossary||[]).map(g=>`<h3 style="margin:14px 0 8px;color:var(--primary)">${esc(g.title)}</h3><div class="gloss">${g.items.map(w=>`<div><b>${esc(w[0])}</b> — ${esc(w[1])}<br><span class="ar">${esc(w[2])}</span></div>`).join('')}</div>`).join('');
+  const used = S.startedAt && S.finishedAt ? Math.round((new Date(S.finishedAt)-new Date(S.startedAt))/60000) : null;
+  $('#results').innerHTML = `
+   <div class="res-hero"><div><div class="lbl">${esc(C.short)} · Results</div><h1>${esc(S.name)}</h1><div style="opacity:.85">${esc(S.cid)}${used!=null?` · ${used} min`:''} · ${new Date(S.finishedAt||Date.now()).toLocaleString()}</div></div>
+   <div><div class="lbl">Correct answers</div><div class="big">${R.score}<span style="font-size:.45em">/${TOTAL}</span></div></div>
+   <div class="band"><div class="lbl">Estimated band</div><div class="big">${R.band.toFixed(1)}</div></div></div>
+   <div class="res-actions no-print"><button class="btn btn-primary" id="rCert">🏅 Certificate</button><button class="btn btn-accent" id="rDl">⬇ Download results for teacher</button><button class="btn btn-ghost" id="rPrint">🖨 Print / Save as PDF</button></div>
+   ${S.tabSwitches?`<div class="card" style="border-left:6px solid #e11d48"><b>Note:</b> the exam page was left ${S.tabSwitches} time(s) during the test.</div>`:''}
+   <div class="card"><h2>Your score by question type</h2>${br}${weakest?`<p style="margin:14px 0 0">🎯 <b>Focus next:</b> ${esc(weakest[0])}. This was your weakest question type.</p>`:''}</div>
+   <div class="card"><h2>Answer review</h2>${rev}</div>
+   ${gloss?`<div class="card"><h2>Key vocabulary · المفردات</h2>${gloss}</div>`:''}
+   <p class="credit">Band scores are estimates based on the standard IELTS ${LISTEN?'Listening':'Academic Reading'} conversion table. · Designed by: Nazila Motahari</p>`;
+  $('#results').classList.remove('hidden'); window.scrollTo(0,0);
+  $('#rCert').onclick = () => cert(R);
+  $('#rPrint').onclick = () => window.print();
+  $('#rDl').onclick = () => { const d = snapshot(); d.result = {score:R.score, outOf:TOTAL, band:R.band, byType:types, wrong:R.rows.filter(r=>!r.ok).map(r=>r.n)}; download(`${C.id}_${fileSafe(S.name)}_RESULTS.json`, JSON.stringify(d,null,1)); };
+  if (R.band >= 6) confetti();
+}
+function cert(R){
+  const c = document.createElement('div'); c.id='cert';
+  c.innerHTML = `<div class="certbox"><div class="certin"><div class="small">Higher Colleges of Technology · LSC 0316</div><h1>Certificate of Completion</h1><div>This certifies that</div><div class="name">${esc(S.name)}</div>
+  <div>has completed the <b>${esc(C.title)}</b> under exam conditions</div><div class="bandbig">${R.band.toFixed(1)}</div><div>Estimated band · ${R.score}/${TOTAL} correct</div>
+  <div class="certfoot"><span>${new Date(S.finishedAt||Date.now()).toLocaleDateString()}</span><span>Designed by: Nazila Motahari</span></div></div>
+  <div class="row no-print" style="display:flex;gap:10px;justify-content:center;margin-top:14px"><button class="btn btn-primary" id="cp">🖨 Print / Save as PDF</button><button class="btn btn-ghost" id="cx">Close</button></div></div>`;
+  document.body.appendChild(c);
+  $('#cx').onclick = () => c.remove();
+  $('#cp').onclick = () => { document.body.classList.add('printing-cert'); window.print(); setTimeout(()=>document.body.classList.remove('printing-cert'),500); };
+}
+function confetti(){
+  const cv = document.createElement('canvas'); cv.id='confetti'; document.body.appendChild(cv);
+  const x = cv.getContext('2d'); cv.width = innerWidth; cv.height = innerHeight;
+  const cols = [getComputedStyle(document.body).getPropertyValue('--primary'), getComputedStyle(document.body).getPropertyValue('--accent'), '#22c55e', '#e11d48', '#38bdf8'];
+  const P = Array.from({length:160},()=>({x:Math.random()*cv.width, y:-20-Math.random()*cv.height*.5, r:5+Math.random()*6, c:cols[Math.floor(Math.random()*cols.length)].trim(), vy:2+Math.random()*3, vx:-1.5+Math.random()*3, a:Math.random()*6}));
+  let f = 0; (function d(){ x.clearRect(0,0,cv.width,cv.height); P.forEach(p=>{ p.y+=p.vy; p.x+=p.vx; p.a+=.1; x.fillStyle=p.c; x.save(); x.translate(p.x,p.y); x.rotate(p.a); x.fillRect(-p.r/2,-p.r/2,p.r,p.r*.6); x.restore(); }); if (++f < 260) requestAnimationFrame(d); else cv.remove(); })();
+}
+
+/* ---------- highlighter ---------- */
+function wireHighlighter(){
+  const pass = $('#passage'); const btn = $('#hlBtn');
+  btn.onclick = () => { hlOn = !hlOn; btn.classList.toggle('on', hlOn); btn.textContent = '🖍 Highlighter: '+(hlOn?'on':'off'); pass.classList.toggle('hlmode', hlOn); };
+  pass.addEventListener('mouseup', () => {
+    if (!hlOn) return; const sel = getSelection(); if (!sel.rangeCount || sel.isCollapsed) return;
+    const r = sel.getRangeAt(0); const sp = (r.startContainer.nodeType===3?r.startContainer.parentNode:r.startContainer).closest('p');
+    if (!sp || !sp.contains(r.endContainer) || !pass.contains(sp)) { sel.removeAllRanges(); return toast('Highlight inside one paragraph at a time.'); }
+    const m = document.createElement('mark'); m.appendChild(r.extractContents()); r.insertNode(m); sel.removeAllRanges();
+  });
+  pass.addEventListener('click', e => { const m = e.target.closest('mark'); if (m && !getSelection().toString()){ m.replaceWith(...m.childNodes); } });
+}
+
+/* ---------- init ---------- */
+function init(){
+  document.title = C.title;
+  document.getElementById('app').innerHTML = buildStart() + buildExam();
+  const nm = $('#sname'), sb = $('#startBtn');
+  const chk = () => sb.disabled = nm.value.trim().length < 3;
+  nm.addEventListener('input', chk);
+  sb.onclick = () => {
+    S.name = nm.value.trim(); S.cid = $('#sid').value.trim(); S.started = true; S.startedAt = new Date().toISOString();
+    enterExam();
+    if (LISTEN){ S.phase='audio'; playAudio(); } else startClock();
+  };
+  $('#loadFile').addEventListener('change', e => { if (e.target.files[0]) load(e.target.files[0]); e.target.value=''; });
+  $('#qs').addEventListener('input', onAnswer); $('#qs').addEventListener('change', onAnswer);
+  $('#qs').addEventListener('click', e => { const f = e.target.closest('.flag'); if (f){ e.preventDefault(); const n = +f.dataset.flag; S.flags[n] = !S.flags[n]; refreshNav(); } });
+  $('#qs').addEventListener('paste', e => e.preventDefault());
+  $$('.parttab').forEach(t => t.onclick = () => showPart(+t.dataset.part));
+  $('#nav').addEventListener('click', e => { const b = e.target.closest('.nb'); if (b) goTo(+b.dataset.n); });
+  $('#saveBtn').onclick = save; $('#submitBtn').onclick = confirmSubmit; $('#gear').onclick = teacher;
+  let fs = 18; $('#fsPlus').onclick = () => { fs = Math.min(26, fs+2); document.documentElement.style.setProperty('--fs', fs+'px'); };
+  $('#fsMinus').onclick = () => { fs = Math.max(14, fs-2); document.documentElement.style.setProperty('--fs', fs+'px'); };
+  if (LISTEN) wireAudio(); else wireHighlighter();
+  document.addEventListener('visibilitychange', () => { if (document.hidden && S.started && !S.submitted){ S.tabSwitches++; setTimeout(()=>toast('⚠ Leaving the exam page is recorded and reported to your teacher.', 5000, true), 300); } });
+  window.addEventListener('beforeunload', e => { if (S.started && !S.submitted){ e.preventDefault(); e.returnValue = ''; } });
+  document.addEventListener('contextmenu', e => { if (S.started && !S.submitted) e.preventDefault(); });
+  tick = setInterval(loop, 250);
+}
+init();
+})();
+</script>
+</body></html>
