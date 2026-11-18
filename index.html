@@ -454,7 +454,9 @@ function showResults(){
    <p class="credit">Designed by: Nazila Motahari</p>`;
   $('#results').classList.remove('hidden'); window.scrollTo(0,0);
   const upd = () => [1,2].forEach(n=>{ const len=(n===1?CHECK1:CHECK2).length; const c=Object.keys(S.checks).filter(k=>k.startsWith(n+'-')&&S.checks[k]).length; $('#cks'+n).textContent = `Self-check: ${c}/${len}`+(c===len?' 🌟 Excellent!':''); });
-  $$('[data-ck]').forEach(c=>c.onchange=()=>{ S.checks[c.dataset.ck]=c.checked; upd(); }); upd();
+  const store = () => { S.hub = {skill:'writing', app:ID, name:S.name, cid:S.cid, t1:S.t1, t2:S.t2, w1, w2, checks:S.checks, checkTotals:{1:CHECK1.length,2:CHECK2.length}, timeUsedMin:used, tabSwitches:S.tabSwitches, finishedAt:S.finishedAt}; try{ localStorage.setItem('ieltsFinalSet1:writing', JSON.stringify(S.hub)); }catch(e){} };
+  $$('[data-ck]').forEach(c=>c.onchange=()=>{ S.checks[c.dataset.ck]=c.checked; upd(); store(); }); upd(); store();
+  if (window.opener && !window.opener.closed){ const b=document.createElement('button'); b.className='btn btn-accent'; b.textContent='🏠 Back to the Exam Hub for my feedback'; b.onclick=()=>{ try{ window.opener.focus(); }catch(e){} window.close(); }; $('.res-actions').prepend(b); }
   $('#rPrint').onclick = () => window.print();
   $('#rDl').onclick = () => { const d = JSON.parse(JSON.stringify(S)); d.wordCounts = {task1:w1, task2:w2}; download(`${ID}_${fileSafe(S.name)}_WRITING.json`, JSON.stringify(d,null,1));
     const txt = `IELTS Final Exam Practice — Writing\nName: ${S.name}\nID: ${S.cid}\nSubmitted: ${new Date(S.finishedAt).toLocaleString()}\nTab switches: ${S.tabSwitches}\n\n=== TASK 1 (${w1} words) ===\n\n${S.t1}\n\n=== TASK 2 (${w2} words) ===\n\n${S.t2}\n`;
